@@ -1,0 +1,445 @@
+<html>
+    <head>
+        <meta charset='utf-8' />
+        <title>Summary Page</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+        <script src="d3.v5.js"></script>
+        <script src="dimple.v2.3.0.js"></script>
+        <script src="jquery-3.2.1.slim.min.js"></script>
+        <script type="text/javascript"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.js"></script>
+        <link href="https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-compare/v0.4.0/mapbox-gl-compare.css" type="text/css" />
+        <style>
+            body {
+                margin:0;
+                padding:0;
+                overflow:hidden;position:relative;
+            }
+
+
+            #legend {
+                font-size: 14px;
+                font-weight: bold;
+                background-color:rgba(255,255,255,0.6);
+                border-radius:3px;
+                padding:10px;
+                box-shadow:0 1px 2px rgba(0,0,0,0.2);
+                line-height:20px;
+                margin-bottom:10px;
+                width:380px;
+                height:130px;
+                position:absolute;
+                right:10px;
+                bottom:10px;
+                z-index:10;
+            }
+
+            .expla {
+                font:12px 'Helvetica Neue',Arial,Helvetica,sans-serif;
+            }
+
+            .legend-key {
+                display:inline-block;
+                font-size:12px;
+                font-weight: bold;
+                line-height:18px;
+                border-radius:20%;
+                width:15px;
+                height:12px;
+                margin-right:5px;
+            }
+
+
+            .map-overlay {
+                font: 'Helvetica Neue',Arial,Helvetica,sans-serif;
+                position:absolute;
+                width:100%;height:100%;
+                top:0;
+                left:0;
+            }
+
+            .map-overlay-inner {
+                width:22%;
+                background-color:rgba(255,255,255,0.6);
+                box-shadow:0 1px 2px rgba(0,0,0,0.20);
+                border-radius:3px;
+                padding:10px;
+                margin-bottom:10px;
+                position:absolute;
+                left:10px;top:80px;
+                z-index:10;
+            }
+
+            .map-overlay-inner table {
+                border:none;
+                width:100%;
+                margin:10px 0 10px 0
+            }
+            
+            .map-overlay-inner h3 {
+                font-size: 24px;
+                line-height:28px;
+                display:block;
+                margin:10px 0 10px 5px;
+            }
+
+            .map-overlay-inner h4 {
+                font-size: 18px;
+                line-height:20px;
+                display:block;
+                margin:10px 0 10px 5px;
+            }
+
+            .map-overlay-inner p.credit {
+                line-height:18px;
+                font-size:15px;
+                margin:20px 0 20px 5px;
+                padding:0;
+            }
+
+            #map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                width:100%;
+                height:100%;
+            }
+
+
+
+            .tips{
+                width:20px;height:20px;line-height:20px;
+                background-color:#efefef;text-align:center;
+                border-radius:10px;
+                right:50px;top:80px;position: absolute;z-index:9999;
+            }
+
+            .tips a{float:left;width:20px;height:20px;}
+
+            .tips_remark{
+                position: fixed;
+                display: none;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.8);
+                z-index: 75;
+            }
+
+            .infobox{
+                position: absolute;
+                text-align: left;
+                top: 10%;
+                left: 20%;
+                right: 20%;
+                color: white;
+            }
+
+            .mapboxgl-popup {
+                max-width: 400px;
+                min-width: 180px;
+                font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+                padding: 0;
+                margin: 0,0,0,20px;
+            }
+
+            .mapboxgl-popup-tip-container {
+                width:0px;
+                height:0px;
+                margin:0 auto;
+                position:relative;
+            }
+
+            .mapboxgl-popup-tip {
+                width:0;
+                height:0;
+                margin:0;
+                border-left:0 solid transparent;
+                border-right:0 solid transparent;
+                border-top:0 solid transparent;
+                box-shadow:none;
+            }
+
+            #year {
+                font-size:18px;
+                font-weight: bold;
+            }
+        </style>
+
+    </head>
+
+
+    <body>
+        
+        <div class="tips">
+            <a href="#">I</a>
+        </div>
+
+        <div class="tips_remark" onclick="javascript:off()" style="display: none;">
+            <div class="infobox">
+            <h2>Summary Page: A comprehensive ranking of all aspects of diversity</h2>
+            <h4>
+                <br>This summary page integrates the previous visualization outcomes across this research on different aspects of urban diversity. 
+                    Firstly, the project ranks each boroughs based on their Simpson's Diversity Index on 8 aspects, including Accommodation Type, Age Structure, Ethic Group, Household Composition, Socio-economic Group, Tenure, Business Floor Space and Religiou Building in 2001 and 2011.
+                    Then, the comprehensive ranking is based on the average ranking on these 8 aspects and re-rank the boroughs, and calculate their ranking changes from 2001 to 2011.
+                    It needs to be noted that the ranking of religious buildings is based on the current data, so the ranking changes cannot be shown in this project, and they are all calculated as 0.
+                <br><br>
+                <h4>
+                    In this way, we can find out the rankings of the same borough in different aspects of diversity more easily. 
+                    For example, City of London with the lowest comprehensive ranking of diversity, except for "Tenure", which was at the middle level of all boroughs in London, the remaining seven aspects ranked low in terms of diversity.
+                </h4>
+                <br>
+                </h4><h4>
+                    The pre-processed data employed in this visualization page can be accessed on author's github <a href="https://github.com/ZZH-H/zzh-h.github.io.git">@ZZH-H</a> 
+                    For more information and comments on this project, please contact author's email: ucbqzz3@ucl.ac.uk
+                    <br>
+                </h4>
+            </div>
+        </div>
+
+        
+        <div id="map"></div>
+
+        <div id='legend'>
+            Legend:
+        </div>
+
+        <div class='map-overlay-inner'>
+            <h3>A comprehensive ranking of all aspects of diversity involved in this research</h3>
+            <p class="credit">
+                Boroughs are ranked according to their Simpson Diversity Index (SDI) scores on 8 measuring aspects of diversity, which have been visualized on previous page. <b>Ranking Order: The most diverse borough is ranked 1 st.</b> <br><br>
+                <b>The comprehensive ranking</b> is based on the <b>Average Ranking</b> of each borough in these eight aspects.<br><br>
+                Click the tips mark on the top-right corner to check more explanations.<br><br>
+            </p>
+
+            <h4>Change the year here ("Ch"=changing ranking from 2001 to 2011)</h4>
+
+            <table>
+            <tr>
+                <td><input id='slider1' type='range' min='0' max='2' step='1' value='0' list='tickmarks'/>
+                    <datalist id="tickmarks">
+                        <option value="0" label="2001">
+                        <option value="1" label="2011">
+                        <option value="2" label="Change">     
+                    </datalist>
+                </td>
+                <td>
+                    <label id='year'>2001</label>
+                </td>
+            </tr>
+            </table>
+
+            <table>
+                <tr><td>     
+                <h4 id="laname">Hover over a local authority to check the comprehensive ranking here and compare the specific ranking in different aspects poping up on the map.</h4>
+                </td></tr>
+            </table>
+        
+        </div>
+            
+
+
+
+
+        <script>
+
+            mapboxgl.accessToken = 'pk.eyJ1IjoienpoLWgiLCJhIjoiY2s1cDc2Y3RrMDZ4ZDNvcXZyZWx2ZGY5biJ9.sTY4WP9kpTaQ3aXzq4kL1A';
+            
+            // Tips Mark on the right-top corner
+            $('.tips>a').on('click',function(){
+                $('.tips_remark').show();
+            });
+
+            function off(){
+                $('.tips_remark').hide();
+            }
+            
+            
+
+            // Map
+            var map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/zzh-h/ckagv5ng0124z1ipn9smjr3dj',
+                center: [-0.23, 51.5],
+                zoom: 9.8
+            });
+
+
+
+            // Setup year slider values
+            var years = ['2001', '2011', 'Ch'];
+
+
+
+        
+
+            // Draw the map function
+            map.on('load', function() {
+                //legend
+                var layers = ["Borough with the highest ranking drop", 
+                              'Borough with unchanging ranking',
+                              'Borough with the lowest ranking increase',
+                              'Borough with the lowest overall diversity ranking',
+                              'Borough with the highest overall diversity ranking'];
+                var colors = ['#458B51','#FFFFFF','#C13538','#FFFFFF','#C13538'];
+                for (var i = 0; i < layers.length; i++) {
+                    var layer = layers[i];
+                    var color = colors[i];
+                    var item = document.createElement('div');
+                    var key = document.createElement('span');
+                    key.className = 'legend-key';
+                    key.style.backgroundColor = color;
+
+                    var value = document.createElement('span');
+                    value.innerHTML = layer;
+                    item.appendChild(key);
+                    item.appendChild(value);
+                    legend.appendChild(item);
+                }
+
+
+
+                // time slide
+                function setSlide(year) {
+                    document.getElementById('year').textContent = years[year];
+
+                    var pp = map.getPaintProperty('LocalAuthorities', 'fill-color');
+
+                    pp.property = "AvgR" + years[year];
+
+                    map.setPaintProperty('LocalAuthorities', 'fill-color', pp);
+
+                    console.log(map.getPaintProperty('LocalAuthorities', 'fill-color'));
+                }
+
+                
+                map.addLayer({
+                    id: 'LocalAuthorities',
+                    type: 'fill',
+                    source: {
+                      type: 'vector',
+                      url: 'mapbox://zzh-h.3ukr6ohp'
+                    },
+                    'source-layer': 'SumShapData-3q8sx4', 
+                    'layout': {
+                        'visibility': 'visible'
+                    },
+                    paint: {
+                        'fill-color': {
+                            property: 'AvgR2001',
+                            stops: [[-10, '#458B51'],[-0.1, '#FFFFFF'],[0.1, '#FFFFFF'],[1, '#C13538'],[34, '#FFFFFF']],
+                        },
+                        'fill-opacity': 0.8,
+                        }
+                  });
+
+                map.addLayer({
+                    id: 'lahighlight',
+                    type: 'line',
+                    source: {
+                      type: 'vector',
+                      url: 'mapbox://zzh-h.3ukr6ohp' 
+                    },
+                    'source-layer': 'SumShapData-3q8sx4', 
+                    'layout': {
+                        'visibility': 'visible'
+                    },
+                    paint: {
+                        'line-color': '#f6eba2',
+                        'line-width': 3
+                        },
+                    filter: ['==','NAME','empty']
+                  });
+
+
+                // Set up the global value"year". "pp", default value 2000
+                var year = 0;
+                var pp = "AvgR" + years[0];
+
+                document.getElementById('slider1').addEventListener('input',
+                function(e) {
+                    year = parseInt(e.target.value);
+                    setSlide(year);
+                    pp = "AvgR" + years[year]; // Change the "pp"
+                });
+
+                console.log(pp);
+
+
+                
+                var mypopup = new mapboxgl.Popup({ closeButton: false, closeOnClick: false,});
+
+
+                // Hover a borough
+                map.on('mousemove','LocalAuthorities',
+                function(e) {
+                    var la = map.queryRenderedFeatures(e.point, {
+                        layers: ['LocalAuthorities']
+                    });
+
+                    if (la.length == 1) {
+                       
+                        map.setFilter('lahighlight', ['==', 'NAME', la[0].properties.NAME]);
+
+                        // add pop up
+                        var coordinates = e.lngLat;         
+                        mypopup
+                        .setLngLat(coordinates)
+
+                        .setHTML("<h3>The " + years[year] +" ranking list of " + e.features[0].properties.NAME + " in following 8 aspects: </h3>Accommodation Type: " 
+                        + e.features[0].properties['Acc'+years[year]] 
+                        + "<br />Age Structure: " + e.features[0].properties['Age'+years[year]] 
+                        + "<br />Ethnic Group: " + e.features[0].properties['Eth'+years[year]] 
+                        + "<br />Household Composition: " + e.features[0].properties['Hou'+years[year]]  
+                        + "<br />Socio-economic: " + e.features[0].properties['Soc'+years[year]] 
+                        + "<br />Tenure: " + e.features[0].properties['Ten'+years[year]] 
+                        + "<br />Business Floor Space: " + e.features[0].properties['Bus'+years[year]] 
+                        + "<br />Religious Buildings: " + e.features[0].properties['Rel'+years[year]])
+                        .addTo(map);
+
+
+
+                        if (la[0].properties[pp] >= 0) {
+                            if (la[0].properties[pp] == 0) {
+                                document.getElementById('laname').innerHTML = "The ranking of " + la[0].properties.NAME + " has not changed from 2001 to 2011."
+                        } else{
+                            document.getElementById('laname').innerHTML = "The Comprehensive (increasing) Ranking of " + la[0].properties.NAME + " is :" + "\n" + la[0].properties[pp] + "<br><br>" + "The Average (increasing) Ranking of "+ la[0].properties.NAME + " is :" + "\n" + la[0].properties['Avg'+years[year]];
+                        } 
+                        } else {
+                            console.log(la[0].properties[pp]);
+                            document.getElementById('laname').innerHTML = "The decreasing ranking of " + la[0].properties.NAME + " is :" + "\n" + la[0].properties[pp] + "<br><br>" + "The decreaseing average ranking of "+ la[0].properties.NAME + " is :" + "\n" + la[0].properties['Avg'+years[year]];
+                        };
+                        
+                    } else {
+                        map.setFilter('lahighlight', ['==', 'NAME', 'null']);
+                        console.log('No features');
+                        document.getElementById('laname').innerHTML = "Hover over a local authority to check the comprehensive ranking here and compare the specific ranking in different aspects poping up on the map.";
+
+                    }
+
+                });
+
+
+
+                // Change the cursor to a pointer when the mouse is over the stations layer.
+                map.on('mouseenter', 'LocalAuthorities', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+
+                // Change it back to a pointer when it leaves and remove the popup window.
+                map.on('mouseleave', 'LocalAuthorities', function () {
+                    map.getCanvas().style.cursor = '';
+                    mypopup.remove();
+                });
+   
+    
+            });
+        </script>
+    </body>
+
+</html>

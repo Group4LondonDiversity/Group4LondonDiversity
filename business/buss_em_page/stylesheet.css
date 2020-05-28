@@ -1,0 +1,298 @@
+
+body {
+    margin: 0px;
+    display: flex;
+    min-height:1200px;
+}
+
+.title{text-align:left;position:relative; z-index:10;font-size:32px;font-weight:bolder;left:220px;top:80px;}
+
+.subtitle{text-align:left;position:relative; z-index:10;font-size:16px;font-weight:bold;left:220px;top:100px;}
+
+.col{text-align:left;position:relative;z-index:10;left:220px;top:115px;}
+
+.col input[type="button"]{
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.namelist{
+    font-size: 10px;
+    font-weight: bold;
+    padding: .5rem 0;
+    display: inline-block;
+    vertical-align: bottom;
+    text-align:left;position:relative;z-index:10;left:0;top:125px;
+}
+.namelist .discrete {
+    margin-right: 2rem;
+    display: inline-block;
+    cursor: pointer;
+}
+.namelist .swatch {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: .1rem;
+    margin-right: .25rem;
+    height: 0.7rem;
+    width: 1rem;
+}
+.namelist .label {
+    display: inline-block;
+    vertical-align: left;
+    font-size: 1rem;
+}
+.tips{
+    width:20px;height:20px;line-height:20px;
+    background-color:#efefef;text-align:center;
+    border-radius:10px;
+    right:50px;top:80px;position: absolute;z-index:9999;
+}
+
+.tips a{float:left;width:20px;height:20px;}
+
+.tips_remark{
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 75;
+}
+.infobox{
+    position: absolute;
+    text-align: left;
+    top: 10%;
+    left: 20%;
+    right: 20%;
+    color: white;
+}
+
+#inputfile {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+}
+
+.domain {
+    display: none;
+}
+
+.tick line {
+    stroke: #C0C0BB;
+}
+
+.tick text {
+    fill: #8E8883;
+    font-size: 12pt;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.label {
+    fill: #5C5C5C;
+    font-size: 12pt;
+    font-family: "Fira Code", "Source Han Sans CN";
+    font-weight: bold
+}
+
+.dateLabel {
+
+    fill: #5C5C5C;
+    display: table-cell;
+    font-size: 48pt;
+    font-weight: bold;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.dateLabelRed {
+
+    fill: #A72E2E;
+    display: table-cell;
+    font-size: 6pt;
+    font-weight: bold;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+
+.days {
+    fill: #5C5C5C;
+    font-weight: bold;
+    font-size: 14pt;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.topLabel {
+    fill: #5C5C5C;
+    font-weight: bold;
+    font-size: 14pt;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.top {
+    fill: #5C5C5C;
+    font-weight: bold;
+    font-size: 14pt;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.value {
+    fill: #8A2E2E;
+    font-size: 14pt;
+    font-weight: 400;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.barInfo {
+    fill: #FFFFFF;
+    font-weight: 700;
+    font-size: 12pt;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.axis-label {
+    fill: #635F5D;
+    font-size: 20pt;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.days {
+    fill: r#5C5C5C;
+    font-weight: bold;
+    font-size: 20pt;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.dayslabel {
+    fill: #5C5C5C;
+    font-weight: bold;
+    font-size: 20pt;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+.growth {
+    fill: #5C5C5C;
+    font-weight: bold;
+    font-size: 20pt;
+    font-family: "Fira Code", "Source Han Sans CN"
+}
+
+/* MIKU色 */
+.L {
+    fill: #39C5BB;
+}
+
+/* 龙牙绿 */
+.M {
+    fill: #006666
+}
+
+.L {
+    fill: #66CCFF
+}
+
+.N {
+    fill: #EB0000
+}
+
+.O {
+    fill: #009714
+}
+
+.P {
+    fill: #B11111
+}
+
+.Q {
+    fill: #E24000
+}
+
+.R {
+    fill: #8605D1
+}
+
+.S {
+    fill: #00A5BB
+}
+
+.T {
+    fill: #C21178
+}
+
+.U {
+    fill: #00A048
+}
+
+.W {
+    fill: #FFC012
+}
+
+.V {
+    fill: #F39303
+}
+
+.X {
+    fill: #933DDA
+}
+
+.Y {
+    fill: #EE5677
+}
+
+.Z {
+    fill: #C0620B
+}
+
+.H {
+    fill: #787878
+}
+
+.G {
+    fill: #CB1B45
+}
+
+.K {
+    fill: #0775BE
+}
+
+.J {
+    fill: #B49D33
+}
+
+.I {
+    fill: #1B813E
+}
+
+.F {
+    fill: #DD3287
+}
+
+.E {
+    fill: #00AF89
+}
+
+.D {
+    fill: #0F2540
+}
+
+.C {
+    fill: #2EA9DF
+}
+
+.B {
+    fill: #0A83E6
+}
+
+.A {
+    fill: #CF9237
+}

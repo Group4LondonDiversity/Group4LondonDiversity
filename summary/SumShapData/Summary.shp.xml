@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en"><Esri><CreaDate>20200525</CreaDate><CreaTime>00052000</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="d:\work\arcgis106\desktop10.6\ArcToolbox\Toolboxes\Data Management Tools.tbx\DeleteField" Date="20200525" Time="000457">DeleteField Export_Output GSS_CODE;HECTARES;NONLD_AREA;ONS_INNER;SUB_2009;SUB_2006;AreaCode;borough</Process></lineage></DataProperties></Esri></metadata>

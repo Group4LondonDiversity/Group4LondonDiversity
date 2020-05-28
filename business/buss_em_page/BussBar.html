@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="d3.v5.js"></script>
+    <script src="jquery-3.2.1.slim.min.js"></script>
+    <script language="javascript">
+        var curTime = 0;
+        var is_restart = 0;
+        var is_stop = 0;
+    </script>
+    <title>Business Employment Diversity</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <center>
+        <div class="title">Business Diversity |  London Employment by Different Economic Sectors</div>
+        <div class="subtitle">Bar chart race shows the different proportions of employment for the whole London by economic sectors from 1971 to 2050.
+            <br>For more details or product explanation, please click on the top-right-corner tips mark!</div>
+        
+        <div class="col">
+            <input type="button" id="restart" value="restart"/>
+            <input type="button" id="stop" value="stop"/>
+            <input type="button" id="resume" value="resume"/>
+        </div>
+
+        <div class="namelist"></div>
+        
+        <div class="tips">
+            <a href="#">I</a>
+        </div>
+
+        <div class="tips_remark" onclick="javascript:off()" style="display: none;">
+            <div class="infobox">
+            <h2>The Bar Chart Race of London Employment by Different Economic Sectors</h2>
+            <h4>
+                <br>This bar chart race aims to show the dynamic trend of the proportions of employees in 16 economic sectors, so as to more intuitively explore the diverse structure of economic sectors across London.
+                    The original dataset covers the number of jobs by GLA Economics sectors from 1971 to 2050, which could be obtained from <a href="https://data.london.gov.uk/dataset/long-term-labour-market-projections">London Datastore.</a>
+                    In addition, this series uses employment estimates from 1971 to 1980, quarterly ONS Workforce Jobs data on an annual average basis from 1981 to 2016, and projects employment by sector to 2050.
+                    This project calculated the proportion of employees in different sectors, and divides these 16 economic sectors into five categories: Primary Sector, Secondary Sector, Tertiary Sector, Quaternary Sector and Other Services. 
+                <br><br>
+
+                </h4><h4>
+                    The pre-processed data employed in this visualization page can be accessed on author's github <a href="https://github.com/ZZH-H/zzh-h.github.io.git">@ZZH-H</a> 
+                    For more information and comments on this project, please contact author's email: ucbqzz3@ucl.ac.uk
+                    <br>
+                </h4>
+            </div>
+        </div>
+
+        <svg id="canvas" width="1800" height="650" style="margin-top:100px;"></svg>
+        <script src="config.js"></script>
+        <script src="visual.js"></script>
+
+        <script>
+            d3.select("#stop").on("click", function () {
+                is_stop = 1;
+            });
+            d3.select("#resume").on("click", function () {
+                is_stop = 0;
+            });
+
+            $('.tips>a').on('click',function(){
+                $('.tips_remark').show();
+            });
+
+            function off(){
+                $('.tips_remark').hide();
+            }
+        </script>
+        
+    </center>
+</body>
+
+</html>

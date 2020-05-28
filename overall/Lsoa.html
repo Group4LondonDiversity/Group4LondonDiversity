@@ -1,0 +1,438 @@
+<html>
+  <head>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
+ <script src="./jquery-3.2.1.slim.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      #legend {
+        font: 12px  'Times New Roman', Times, serif;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 3px;
+        padding: 10px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        line-height: 15px;
+        height: 220px;
+        margin-bottom: 20px;
+        width: 200px;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+      }
+
+      .expla {
+        font: 12px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+      }
+
+      .legend-key {
+        font: 12px 'Times New Roman', Times, serif;
+        display: inline-block;
+        border-radius: 20%;
+        line-height: 15px;
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+      }
+
+      .SixTypes {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 3px;
+        padding: 10px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        line-height: 10px;
+        height: 230px;
+        margin-bottom: 10px;
+        width: 280px;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+
+      .map-overlay {
+        font: 12px/20px 'Times New Roman', Times, serif;
+        position: absolute;
+        width: 335px;
+            top: 60px;
+        left: 0;
+        padding: 10px;
+      }
+
+      .map-overlay .map-overlay-inner {
+        background: rgba(255, 255, 255, 0.7);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      .map-overlay table {
+        border: none;
+        width: 100%;
+      }
+
+      .map-overlay h3 {
+        line-height: 24px;
+        display: block;
+        margin: 0 0 10px;
+      }
+
+      .map-overlay p.credit {
+        margin: 5px 0 0 0;
+        padding: 0;
+      }
+      
+	   .tips {
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            background-color: #efefef;
+            text-align: center;
+            border-radius: 10px;
+            right: 20px;
+            top: 80px;
+            position: absolute;
+            z-index: 9999;
+        }
+        
+        .tips a {
+            float: left;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .tips_remark {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 75;
+        }
+        
+        .infobox {
+            position: absolute;
+            text-align: left;
+            top: 5%;
+            left: 20%;
+            right: 20%;
+            color: white;
+        }
+    </style>
+    <body>
+      <div id="map"></div>
+	  
+   <div class="tips">
+            <a href="#">I</a>
+        </div>
+
+        <div class="tips_remark" onclick="javascript:off()" style="display: none;">
+            <div class="infobox">
+            <h5>The data is sourced from the Census Information Scheme using Simpsons Diversity Index to calculate diversity index:SDI = 1/Sum {Pi}², where:P(i) is the size of a given group as a proportion of the total population,the sum is across the groups.</h5>
+            <h5>Six Domains:<br> 
+            ①Accommodation Type: 1. House/bungalow: Detached 2. House/bungalow: Semi-detached 3. House/bungalow: Terraced 4. Flat: Purpose built 5. Flat: Converted house 6. Flat: In a commercial building 7. Caravan or other mobile or temporary structure 8. Shared dwelling<br>
+            ②Age Structure: a. 0-4 b. 5-18 c. 19-29 d. 30-39 e. 40-49 f. 50-64 g. 65-79 h.80+<br>
+            ③Ethnicity: 1. White British 2. White Irish 3. White Other 4. White & Black Caribbean 5. White & Black African 6. White & Asian 7. Other Mixed 8. Indian 9. Pakistani 10. Bangladesh 11. Other Asian 12. Black Caribbean 13. Black African 14. Black Other 15. Chinese 16. Other<br>
+            ④Household Composition: 1. One-person household (aged 65+) 2. One-person household (aged lower than 65) 3. Couple without children 4. Couple with dependent children 5. Couple with non-dependent children 6. Lone parent with dependent children 7. Lone parent with non-dependent children 8. Other All persons aged 65+ 9. All Student 10. All others<br>
+            ⑤Social-economic Grouping: 1. Occupation: Managers & senior officials Occupation: Professional 3. Occupation: Associate professional & technical 4. Occupation: Administrative & secretarial 5. Occupation: Skilled trade 6. Occupation: Personal service 7. Occupation: Sales and customer service 8. Occupation: Process, plant & machine operatives 9. Occupation: Elementary 10. Unemployed 11. Retired 12. Full-time student 13. Looking after home/family 14. Long-term sick or disabled 15. Other economically inactive<br>
+            ⑥Housing Tenure: 1. Owner occupied: Owned outright 2. Owner occupied: Owned with a mortgage or loan 3.Shared ownership 4.Social Rent: rented from council 5.Social rent: Other 6.Private rent: Private landlord/letting agency 7.Private rent:Employer of a household member 8.Private rent: relative or friend of a household member 9.Private rent: other 10. Living rent free<br></h5>
+            
+                
+            </div>
+        </div>
+
+	  
+      <div id="legend">Legend:<br /><br /></div>
+      <div class="map-overlay">
+        <div class="map-overlay-inner">
+          <h1>Diversity Scores for LSOA</h1>
+          <h3>Change the year</h3>
+          <table>
+            <tr>
+              <td>
+                <input
+                  id="slider1"
+                  type="range"
+                  min="0"
+                  max="2"
+                  step="1"
+                  value="0"
+                  list="tickmarks"
+                />
+                <datalist id="tickmarks">
+                  <option value="0" label="2001"> </option>
+                  <option value="1" label="2011"> </option>
+                  <option value="2" label="Change"> </option>
+                </datalist>
+              </td>
+              <td>
+                <label id="year">2001</label>
+              </td>
+            </tr>
+          </table>
+
+          <table>
+            <h3>Change the Domains</h3>
+            <tr>
+              <td>
+                <input
+                  id="slider2"
+                  type="range"
+                  min="0"
+                  max="5"
+                  step="1"
+                  value="0"
+                  list="tickmarks"
+                />
+                <datalist id="tickmarks">
+                  <option value="0" label="Accommodation Type"> </option>
+                  <option value="1" label="Age Structure"> </option>
+                  <option value="2" label="Ethnic Group"> </option>
+                  <option value="3" label="Household Composition"> </option>
+                  <option value="4" label="Socio-economic"> </option>
+                  <option value="5" label="Tenure"> </option>
+                </datalist>
+              </td>
+              <td>
+                <label id="type">Accommodation Type</label>
+              </td>
+            </tr>
+          </table>
+
+          <table>
+            <tr>
+              <td>
+                <h3 id="laname">
+                  Hover over a location to check the Simpson's Diversity Index scores for each
+                  domain
+                </h3>
+              </td>
+            </tr>
+          </table>
+          <br />
+        </div>
+      </div>
+      <script>
+	   $('.tips>a').on('click', function() {
+                $('.tips_remark').show();
+            });
+
+            function off() {
+                $('.tips_remark').hide();
+            };
+	   
+	  
+        mapboxgl.accessToken =
+          'pk.eyJ1IjoidXVsaWtlc21hcHMiLCJhIjoiY2thNmp1eTFrMDB6ajJybG95YnhvcDh2cSJ9.ogUcsos0ZJi63cbWsPcIaw';
+
+        var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/uulikesmaps/cka87yvgb03z31ijlwdeov7f6',
+          center: [0, 51.5],
+          zoom: 9,
+        });
+
+        map.on('load', function () {
+          var layers = [
+            'Super High Decrease', 
+            'High Decrease',
+            'Low Decrease',
+            'Alomost Unchange / Super Low Diversity',
+            'Super Low Diversity / Low Increase',
+            'Low Diveristy / High Increase',
+            'Medium Diveristy / Super High Increase',
+            'High Diversity',
+            'Super High Diveristy',
+          ];
+
+          var colors = [
+            '#010B9A',
+            '#2E5461',
+            '#6A8AA2',
+            '#97FF00',
+            '#FFDF92',
+            '#EFB76C',
+            '#F28452',
+            '#D56D6E',
+            '#FD1700',
+          ];
+          for (var i = 0; i < layers.length; i++) {
+            var layer = layers[i];
+            var color = colors[i];
+            var item = document.createElement('div');
+            var key = document.createElement('span');
+            key.className = 'legend-key';
+            key.style.backgroundColor = color;
+
+            var value = document.createElement('span');
+            value.innerHTML = layer;
+            item.appendChild(key);
+            item.appendChild(value);
+            legend.appendChild(item);
+          }
+
+          map.addLayer({
+            id: 'isoashp',
+            type: 'fill',
+            source: {
+              type: 'vector',
+              url: 'mapbox://uulikesmaps.2680k2ou',
+            },
+            'source-layer': 'LSOA_new-0rl767',
+            layout: {
+              visibility: 'visible',
+            },
+            paint: {
+              'fill-color': {
+                property: 'Accom01yea',
+                stops: [
+                  [-80, '#010B9A'],
+                  [-30, '#2E5461'],
+                  [-10, '#6A8AA2'],
+                  [-2, '#97FF00'],
+                  [2, '#FFDF92'],
+                  [20, '#EFB76C'],
+                  [40, '#F28452'],
+                  [60, '#D56D6E'],
+                  [80, '#FD1700'],
+                ],
+                type:"interval",
+              },
+              'fill-opacity': 0.8,
+            },
+          });
+          var years = ['2001', '2011', 'change'];
+
+          var types = ['Accom', 'Age', 'Ethn', 'House', 'Socio', 'Tenure'];
+          var typesPlus = [
+            'Accommodation Type',
+            'Age Structure',
+            'Ethnic Group',
+            'Household Composition',
+            'Socio-economic',
+            'Tenure',
+          ];
+          function setSlide(year, type) {
+            document.getElementById('year').textContent = years[year];
+            document.getElementById('type').textContent = typesPlus[type];
+            var judge_t = years[year];
+            var judge_ty = types[type];
+            if (judge_t == 'change') {
+              var pp = map.getPaintProperty('isoashp', 'fill-color');
+              console.log(pp);
+              pp.property = years[year] + '_' + types[type].slice(0, 3);
+
+              map.setPaintProperty('isoashp', 'fill-color', pp);
+
+              console.log(map.getPaintProperty('isoashp', 'fill-color'));
+            } else if (judge_ty == 'Accom') {
+              var pp = map.getPaintProperty('isoashp', 'fill-color');
+              console.log(pp);
+
+              pp.property = types[type] + years[year].slice(-2) + 'yea';
+
+              map.setPaintProperty('isoashp', 'fill-color', pp);
+
+              console.log(map.getPaintProperty('isoashp', 'fill-color'));
+            } else if (judge_ty == 'Age') {
+              var pp = map.getPaintProperty('isoashp', 'fill-color');
+              console.log(pp);
+
+              pp.property = types[type] + years[year].slice(-2) + 'year';
+
+              map.setPaintProperty('isoashp', 'fill-color', pp);
+
+              console.log(map.getPaintProperty('isoashp', 'fill-color'));
+            } else if (judge_ty == 'Ethn') {
+              var pp = map.getPaintProperty('isoashp', 'fill-color');
+              console.log(pp);
+
+              pp.property = types[type] + years[year].slice(-2) + 'year';
+
+              map.setPaintProperty('isoashp', 'fill-color', pp);
+
+              console.log(map.getPaintProperty('isoashp', 'fill-color'));
+            } else if (judge_ty == 'House') {
+              var pp = map.getPaintProperty('isoashp', 'fill-color');
+              console.log(pp);
+
+              pp.property = types[type] + years[year].slice(-2) + 'yea';
+
+              map.setPaintProperty('isoashp', 'fill-color', pp);
+
+              console.log(map.getPaintProperty('isoashp', 'fill-color'));
+            } else if (judge_ty == 'Socio') {
+              var pp = map.getPaintProperty('isoashp', 'fill-color');
+              console.log(pp);
+
+              pp.property = types[type] + years[year].slice(-2) + 'yea';
+
+              map.setPaintProperty('isoashp', 'fill-color', pp);
+
+              console.log(map.getPaintProperty('isoashp', 'fill-color'));
+            } else if (judge_ty == 'Tenure') {
+              var pp = map.getPaintProperty('isoashp', 'fill-color');
+              console.log(pp);
+
+              pp.property = types[type] + years[year].slice(-2) + 'ye';
+
+              map.setPaintProperty('isoashp', 'fill-color', pp);
+
+              console.log(map.getPaintProperty('isoashp', 'fill-color'));
+            }
+          }
+
+          var year = 0;
+          var type = 0;
+          var pp = types[0] + years[0].slice(-2) + 'yea';
+
+          document.getElementById('slider1').addEventListener('input', function (e) {
+            year = parseInt(e.target.value);
+            setSlide(year, type);
+          });
+
+          document.getElementById('slider2').addEventListener('input', function (e) {
+            type = e.target.value;
+            setSlide(year, type);
+          });
+
+          map.on('mousemove', function (e) {
+            var la = map.queryRenderedFeatures(e.point, {
+              layers: ['isoashp'],
+            });
+            const result = map.getPaintProperty('isoashp', 'fill-color');
+            const { property } = result;
+            console.log(property);
+
+            if (la.length == 1) {
+              document.getElementById('laname').innerHTML =
+                la[0].properties.LSOA_NAME +
+                ':' +
+                ' ' +
+                `${la[0].properties[property] || la[0].properties[property] === 0 ? la[0].properties[property] : 'Missing Data'}`;
+
+              console.log(la);
+            } else {
+              document.getElementById(
+                'laname',
+              ).innerHTML = `Hover over a location to check the Simpson's Diversity Index scores for each domain`;
+            }
+          });
+        });
+      </script>
+    </body></head
+  >>
+</html>
